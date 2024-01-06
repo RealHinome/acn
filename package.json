@@ -14,6 +14,7 @@
     "lint": "npm run lint:js && npm run lint:prettier"
   },
   "devDependencies": {
+    "@nuxt/image": "^1.1.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/i18n": "^8.0.0",
     "@nuxtjs/tailwindcss": "^6.10.3",
