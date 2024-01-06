@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         },
       ],
       bodyAttrs: {
-        class: "bg-zinc-950 text-white",
+        class: "bg-zinc-100 text-dark",
       },
     },
   },
@@ -35,6 +35,7 @@ export default defineNuxtConfig({
   sourcemap: isDevelopment,
 
   modules: [
+    "@nuxt/image",
     "@nuxtjs/tailwindcss",
     [
       "@nuxtjs/i18n",
