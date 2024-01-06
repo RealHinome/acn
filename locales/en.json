@@ -2,5 +2,10 @@
   "Personal website referencing all my projects": "Personal website referencing all my projects",
   "home": {
     "profile": "{name} profile"
+  },
+  "error": {
+    "lost": "Are you lost?",
+    "path": "We just found a path!",
+    "home": "Being redirected to sweet home"
   }
 }
