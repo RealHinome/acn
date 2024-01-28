@@ -22,8 +22,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /node_modules
-          key: node-{{ hashFiles('./package-lock.json') }}
+          key: node-${{ hashFiles('./package-lock.json') }}
       - name: Install dependencies
         run: npm install
       - name: Test linting
-        run: npm lint
+        run: npm run lint
