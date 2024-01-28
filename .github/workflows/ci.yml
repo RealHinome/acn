@@ -21,8 +21,11 @@ jobs:
       - name: Mount node cache
         uses: actions/cache@v3
         with:
-          path: /node_modules
-          key: node-${{ hashFiles('./package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('./package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
       - name: Install dependencies
         run: npm install
       - name: Test linting
