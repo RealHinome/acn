@@ -4,7 +4,6 @@ permissions:
   contents: read
 
 on:
-  workflow_dispatch: # Allow manual runs.
   pull_request:
     branches: [ 'master' ]
   push:
@@ -13,23 +12,18 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    name: Build Nuxt
+    name: Test Nuxt
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
           node-version: latest
-      - name: Mount yarn cache
+      - name: Mount node cache
         uses: actions/cache@v3
         with:
-          path: front/node_modules
-          key: node
+          path: /node_modules
+          key: node-{{ hashFiles('./package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
+        run: npm install
       - name: Test linting
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: lint
+        run: npm lint
