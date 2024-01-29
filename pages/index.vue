@@ -4,7 +4,8 @@ if (useRoute().path === "/") {
   useHead({
     script: [
       {
-        children: `const locale = (navigator.language || "en-US")?.split("-")[0] || "en"; if(!["en", "fr"].includes(locale)) window.location.href = "/en/";else window.location.href = \`/${locale}/\`;`,
+        children:
+          'const locale = (navigator.language || "en-US")?.split("-")[0] || "en"; if(!["en", "fr"].includes(locale)) window.location.href = "/en/";else window.location.href = `/${locale}/`;',
       },
     ],
   });
