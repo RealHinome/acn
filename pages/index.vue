@@ -1,3 +1,16 @@
+<script setup>
+if (useRoute().path === "/") {
+  /* eslint no-template-curly-in-string: 0 */
+  useHead({
+    script: [
+      {
+        children: `const locale = (navigator.language || "en-US")?.split("-")[0] || "en"; if(!["en", "fr"].includes(locale)) window.location.href = "/en/";else window.location.href = \`/${locale}/\`;`,
+      },
+    ],
+  });
+}
+</script>
+
 <template>
   <div class="flex flex-col justify-center items-center h-screen">
     <NuxtImg
