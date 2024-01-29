@@ -78,14 +78,9 @@ export default defineNuxtConfig({
     },
   },
 
-  routeRules: {
-    // Deactivate JavaScript.
-    "/fr": { experimentalNoScripts: true },
-    "/en": { experimentalNoScripts: true },
-  },
-
   features: {
     inlineStyles: true,
+    noScripts: true,
   },
 
   experimental: {
