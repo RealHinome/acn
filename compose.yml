@@ -1,0 +1,32 @@
+services:
+  bind9:
+    image: ubuntu/bind9:latest
+    container_name: bind9
+    restart: unless-stopped
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    environment:
+      # These variables are read by the entrypoint.sh script.
+      - DOMAIN_NAME=gravitalia.com #${DOMAIN_NAME}
+      - NS1_IP=127.0.0.1 #${NS1_IP}
+      - SECONDARY_DNS_IP=${SECONDARY_DNS_IP}
+      - PRIMARY_SITE_IP=127.0.0.1 #${PRIMARY_SITE_IP}
+      # These variables are read by BIND9.
+      - BIND9_USER=root
+    volumes:
+      - ./entrypoint.sh:/entrypoint.sh:ro
+      - ./dns/named.conf.template:/etc/bind/named.conf.template
+      - ./dns/named.conf.options.template:/etc/bind/named.conf.options.template
+      - ./dns/zones/db.domain.template:/etc/bind/zones/db.domain.template
+      - ./keys:/etc/bind/keys
+      - bind9_cache:/var/cache/bind
+      - bind9_logs:/var/log/named
+    cap_add:
+      - NET_BIND_SERVICE
+    entrypoint: ["/entrypoint.sh"]
+    command: ["-c", "/etc/bind/named.conf", "-g"]
+
+volumes:
+  bind9_cache:
+  bind9_logs:

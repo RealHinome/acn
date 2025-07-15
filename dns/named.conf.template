@@ -1,0 +1,33 @@
+/*dnssec-policy "default" {
+    keys {
+        ksk lifetime 1y algorithm ECDSAP256SHA256;
+        zsk lifetime 30d algorithm ECDSAP256SHA256;
+    };
+    max-zone-ttl 1h;
+    zone-propagation-delay 1h;
+    parent-ds-ttl 2d;
+    publish-safety 1d;
+    retire-safety 1d;
+    signatures-refresh 7d;
+    signatures-validity 14d;
+    signatures-validity-dnskey 14d;
+    nsec3param iterations 10 optout no salt-length 16;
+};*/
+
+zone "${DOMAIN_NAME}" IN {
+    type master;
+    file "/etc/bind/zones/db.${DOMAIN_NAME}";
+    allow-update { none; };
+    // allow-transfer { ${SECONDARY_DNS_IP}; };
+    notify yes;
+    // also-notify { ${SECONDARY_DNS_IP}; };
+
+    inline-signing yes;
+    //auto-dnssec maintain;
+    key-directory "/etc/bind/keys";
+};
+
+zone "0.0.127.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.local";
+};
