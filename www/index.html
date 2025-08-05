@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A. CN</title>
+    
+    <style>
+      html {
+        margin: 0 auto;
+        max-width: 30vw;
+        font-size: 1rem;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: 'Latin Modern', Georgia, Cambria, 'Times New Roman', Times, serif;
+        line-height: 1.8;
+        max-width: 80ch;
+        padding: 2rem 1.25rem;
+        background-color: whitesmoke;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        line-height: 3.25rem;
+        margin-bottom: 1.625rem;
+        text-align: center;
+      }
+
+      h2 {
+        font-size: 1.7rem;
+        line-height: 2rem;
+        margin-top: 3rem;
+      }
+
+      .abstract {
+        text-align: center;
+      }
+
+      blockquote {
+        width: 26vw;
+      }
+
+      blockquote p::before {
+        content: "\00AB";
+      }
+
+      blockquote p::after {
+        content: "\00BB";
+      }
+
+      ol {
+        list-style-type: none;
+        counter-reset: item;
+      }
+
+      ol li::before {
+        counter-increment: item; 
+        content: '[' counter(item) '] ';
+      }
+    </style>
+  </head>
+  <body>
+    <h1>A. CN</h1>
+    <div class="abstract">
+      <p>Bidouilleur. Philosophe. Étudiant.</p>
+
+      <a href="/CV.pdf">CV</a>
+      &ndash;
+      <a href="mailto:acn@gravitalia.com">Courriel</a>
+    </div>
+
+    <blockquote cite="https://www.leboucher.com/pdf/sieyes/tiers.pdf">
+      <p>
+        Tant que le philosophe n’excède point les limites de la vérité, ne
+        l’accusez pas d’aller trop loin. 
+      </p>
+      <cite>&mdash; Sieyès</cite>
+    </blockquote>
+
+    <h2>Publications</h2>
+    <ol>
+      <li></li>
+    </ol>
+
+    <h2>Projets</h2>
+    <ul>
+      <li></li>
+    </ul>
+  </body>
+</html>
