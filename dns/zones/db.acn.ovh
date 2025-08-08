@@ -1,5 +1,5 @@
 $TTL    3600
-@       IN      SOA     ns1.acn.ovh.    admin.acn.ovh. (
+@       IN      SOA     ns1.acn.ovh.    a.acn.ovh. (
                         2025080801 ; Serial (YYYYMMDDNN)
                         86400      ; Refresh
                         3600       ; Retry
@@ -7,7 +7,7 @@ $TTL    3600
                         300 )      ; Negative Cache
 ; Nameserver.
         IN      NS      ns1.acn.ovh.
-        IN      A       127.0.0.1
+ns1     IN      A       127.0.0.1
 
 ; Other records.
 @       IN      A       127.0.0.1
