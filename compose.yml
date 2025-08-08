@@ -7,26 +7,47 @@ services:
       - "53:53/udp"
       - "53:53/tcp"
     environment:
-      # These variables are read by the entrypoint.sh script.
-      - DOMAIN_NAME=gravitalia.com #${DOMAIN_NAME}
-      - NS1_IP=127.0.0.1 #${NS1_IP}
-      - SECONDARY_DNS_IP=${SECONDARY_DNS_IP}
-      - PRIMARY_SITE_IP=127.0.0.1 #${PRIMARY_SITE_IP}
-      # These variables are read by BIND9.
       - BIND9_USER=root
     volumes:
-      - ./entrypoint.sh:/entrypoint.sh:ro
-      - ./dns/named.conf.template:/etc/bind/named.conf.template
-      - ./dns/named.conf.options.template:/etc/bind/named.conf.options.template
-      - ./dns/zones/db.domain.template:/etc/bind/zones/db.domain.template
+      - ./dns/named.conf:/etc/bind/named.conf
+      - ./dns/named.conf.options:/etc/bind/named.conf.options
+      - ./dns/zones/db.acn.ovh:/etc/bind/zones/db.acn.ovh
       - ./keys:/etc/bind/keys
       - bind9_cache:/var/cache/bind
       - bind9_logs:/var/log/named
     cap_add:
       - NET_BIND_SERVICE
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www/public:/var/www/html
+      - ./www/nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/ssl
+      - ./www/entrypoint.sh:/entrypoint.sh:ro
     entrypoint: ["/entrypoint.sh"]
-    command: ["-c", "/etc/bind/named.conf", "-g"]
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./www/public:/var/www/html
+    entrypoint: /bin/sh -c
+    command: >
+      "trap exit TERM; while :; do
+        certbot renew --webroot -w /var/www/html --quiet;
+        sleep 12h;
+      done"
 
 volumes:
   bind9_cache:
   bind9_logs:
+  certbot-etc:
+  certbot-var:

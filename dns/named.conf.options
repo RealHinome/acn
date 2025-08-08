@@ -2,25 +2,23 @@ options {
     directory "/var/cache/bind"; // Standard cache location inside the container.
     pid-file "/var/run/named/named.pid";
 
-    // Security.
-    // allow-query { ${ALLOW_QUERY_NETWORKS}; 127.0.0.1; };
+    version none;
+    allow-query { any; };
+    auth-nxdomain no;
+    recursion no;
+    disable-any-query yes;
 
     // Prevent unauthorized zone transfers (AXFR/IXFR).
-    // allow-transfer { ${SECONDARY_DNS_IP}; };
-
-    recursion no;
-    // allow-recursion { ${ALLOW_RECURSION_NETWORKS}; 127.0.0.1; };
-
-    version none;
-
-    // DNSSEC.
-    //dnssec-validation auto;
-
-    auth-nxdomain no;
+    allow-transfer { none; };
 
     // Listen on all interfaces inside the container. Docker handles port mapping.
     listen-on { any; };
     listen-on-v6 { any; };
+
+    rate-limit {
+        responses-per-second 10;
+        zone-requests-per-second 5;
+    };
 };
 
 // Telemetry.

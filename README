@@ -10,4 +10,14 @@
  .'.''| |  '. `._____.-'/|  |   |  | 
 / /   | |_   `-.______ / |  |   |  | 
 \ \._,\ '/            `  |  |   |  | 
- `--'  `"                '--'   '--' 
+ `--'  `"                '--'   '--'
+
+
+```docker run -it --rm \
+  -v ./www/public:/var/www/html \
+  -v certbot-etc:/etc/letsencrypt \
+  -v certbot-var:/var/lib/letsencrypt \
+  certbot/certbot certonly \
+  --webroot -w /var/www/html \
+  -d acn.ovh -d www.acn.ovh \
+  --email acn@gravitalia.com --agree-tos --no-eff-email```
