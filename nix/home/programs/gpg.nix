@@ -9,13 +9,11 @@
     };
   };
 
-  home.packages = [pkgs.pinentry_mac];
-
-  home.file.".gnupg/gpg-agent.conf" = {
-    text = ''
-      pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
-      default-cache-ttl 900
-      max-cache-ttl 7200
-    '';
+  services.gpg-agent = {
+    enable = true;
+    enableZshIntegration = true;
+    defaultCacheTtl = 900;
+    maxCacheTtl = 7200;
+    pinentry.package = pkgs.pinentry_mac;
   };
 }

@@ -42,6 +42,7 @@
             enable = true;
             user = username;
             enableRosetta = true;
+            mutableTaps = false;
           };
         }
 

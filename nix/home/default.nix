@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   username,
   ...
@@ -26,27 +27,43 @@
     stateVersion = "24.11";
 
     packages = with pkgs; [
-      alejandra
-      bat
-      fd
-      jq
-      ripgrep
       shellcheck
       shfmt
-      stylua
       tree
       wget
       yq-go
     ];
 
     sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-      GIT_EDITOR = "nvim";
-      PAGER = "less -FRX";
+      PAGER = "less";
       MANPAGER = "nvim +Man!";
     };
   };
 
-  programs.home-manager.enable = true;
+  programs = {
+    bat.enable = true;
+    fd.enable = true;
+    home-manager.enable = true;
+    jq.enable = true;
+    less = {
+      enable = true;
+      options = ["-F" "-R" "-X"];
+    };
+    ripgrep.enable = true;
+    stylua.enable = true;
+  };
+
+  home.activation.defaultApplications = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [[ -d /Applications/Thunderbird.app ]]; then
+      if [[ "$(${pkgs.duti}/bin/duti -d mailto 2>/dev/null || true)" != "org.mozilla.thunderbird" ]]; then
+        run ${pkgs.duti}/bin/duti -s org.mozilla.thunderbird mailto all
+      fi
+
+      if [[ "$(${pkgs.duti}/bin/duti -d com.mozilla.thunderbird.mozeml 2>/dev/null || true)" != "org.mozilla.thunderbird" ]]; then
+        run ${pkgs.duti}/bin/duti -s org.mozilla.thunderbird com.mozilla.thunderbird.mozeml viewer
+      fi
+    else
+      echo "Skipping default mail application: Thunderbird is not installed yet" >&2
+    fi
+  '';
 }

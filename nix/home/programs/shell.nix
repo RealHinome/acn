@@ -1,4 +1,8 @@
-{...}: {
+{
+  config,
+  hostname,
+  ...
+}: {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -19,16 +23,10 @@
       lt = "eza --tree --level=2 --icons";
       cat = "bat";
       v = "nvim";
-      vim = "nvim";
-      nixfmt = "alejandra .";
-      rebuild = "darwin-rebuild switch --flake ~/mac-config#macbook";
-      update = "nix flake update ~/mac-config && darwin-rebuild switch --flake ~/mac-config#macbook";
+      nixfmt = "nix fmt";
+      rebuild = "nh darwin switch --hostname ${hostname}";
+      update = "nh darwin switch --hostname ${hostname} --update";
     };
-
-    initContent = ''
-      # Keep GnuPG pinentry attached to the current terminal.
-      export GPG_TTY="$(tty)"
-    '';
   };
 
   programs.eza = {
@@ -51,6 +49,11 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    darwinFlake = "${config.home.homeDirectory}/mac-config";
   };
 
   programs.starship = {

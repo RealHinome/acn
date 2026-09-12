@@ -14,11 +14,25 @@
   system.stateVersion = 4;
 
   nix.settings = {
+    # cache.nixos.org and its signing key are included by nix-darwin.
+    substituters = ["https://coliasgroup.cachix.org"];
+
+    trusted-public-keys = [
+      "coliasgroup.cachix.org-1:vYRVaHS5FCjsGmVVXlzF5LaIWjeEK17W+MHxK886zIE="
+    ];
+
+    # Flakes must not be able to silently add substituters or trust keys.
+    accept-flake-config = false;
     experimental-features = ["nix-command" "flakes"];
-    trusted-users = ["root" username];
+    flake-registry = "";
+    require-sigs = true;
+    sandbox = true;
+    trusted-users = ["root"];
     warn-dirty = false;
   };
 
+  # This configuration is flake-only; avoid mutable channel state.
+  nix.channel.enable = false;
   nix.optimise.automatic = true;
 
   # Keep the formatter available even outside Home Manager shells.

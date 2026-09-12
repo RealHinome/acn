@@ -18,7 +18,10 @@
       hash = "sha256-I74ugRO1C8kXKTd9isAy9ljMUYfjiaMZ2EWPnDewe0o=";
     };
 
-    nativeBuildInputs = [pkgs.unzip];
+    nativeBuildInputs = [
+      pkgs.makeWrapper
+      pkgs.unzip
+    ];
     dontConfigure = true;
     dontBuild = true;
 
@@ -31,37 +34,28 @@
     '';
 
     installPhase = ''
-            runHook preInstall
+      runHook preInstall
 
-            verus_binary="$(find . -maxdepth 3 -type f -name verus | head -n 1)"
-            if [ -z "$verus_binary" ]; then
-              echo "Verus binary not found in release archive" >&2
-              find . -maxdepth 3 -print >&2
-              exit 1
-            fi
+      verus_binary="$(find . -maxdepth 3 -type f -name verus | head -n 1)"
+      if [ -z "$verus_binary" ]; then
+        echo "Verus binary not found in release archive" >&2
+        find . -maxdepth 3 -print >&2
+        exit 1
+      fi
 
-            root="$(dirname "$verus_binary")"
-            if [ ! -x "$root/verus" ] || [ ! -x "$root/cargo-verus" ]; then
-              echo "Unexpected Verus release archive layout" >&2
-              find . -maxdepth 3 -print >&2
-              exit 1
-            fi
+      root="$(dirname "$verus_binary")"
+      if [ ! -x "$root/verus" ] || [ ! -x "$root/cargo-verus" ]; then
+        echo "Unexpected Verus release archive layout" >&2
+        find . -maxdepth 3 -print >&2
+        exit 1
+      fi
 
-            mkdir -p "$out/libexec/verus" "$out/bin"
-            cp -R "$root"/. "$out/libexec/verus/"
+      mkdir -p "$out/libexec/verus" "$out/bin"
+      cp -R "$root"/. "$out/libexec/verus/"
 
-            cat > "$out/bin/verus" <<WRAPPER
-      #!/bin/sh
-      exec "$out/libexec/verus/verus" "\$@"
-      WRAPPER
-
-            cat > "$out/bin/cargo-verus" <<WRAPPER
-      #!/bin/sh
-      exec "$out/libexec/verus/cargo-verus" "\$@"
-      WRAPPER
-
-            chmod +x "$out/bin/verus" "$out/bin/cargo-verus"
-            runHook postInstall
+      makeWrapper "$out/libexec/verus/verus" "$out/bin/verus"
+      makeWrapper "$out/libexec/verus/cargo-verus" "$out/bin/cargo-verus"
+      runHook postInstall
     '';
 
     meta = {
