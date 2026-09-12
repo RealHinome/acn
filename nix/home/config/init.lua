@@ -127,6 +127,32 @@ local treesitter_parsers = {
   "yaml",
 }
 
+-- Apple's compiler and linker can get out of sync with a newly installed macOS
+-- SDK. Prefer Nix's matched compiler toolchain for parser builds instead of
+-- allowing tree-sitter to fall back to /usr/bin/cc.
+local function configure_treesitter_compiler()
+  if vim.fn.has("macunix") ~= 1 then
+    return true
+  end
+
+  for _, dir in ipairs(vim.split(vim.env.PATH or "", ":", { plain = true, trimempty = true })) do
+    if dir:match("^/nix/store/.*%-clang%-wrapper%-[^/]+/bin$") then
+      local cc = vim.fs.joinpath(dir, "clang")
+      local cxx = vim.fs.joinpath(dir, "clang++")
+
+      if vim.fn.executable(cc) == 1 and vim.fn.executable(cxx) == 1 then
+        vim.env.CC = cc
+        vim.env.CXX = cxx
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
+local treesitter_can_compile = configure_treesitter_compiler()
+
 require("lazy").setup({
   {
     "Mofiqul/dracula.nvim",
@@ -234,7 +260,11 @@ require("lazy").setup({
     branch = "main",
     version = false,
     lazy = false,
-    build = ":TSUpdate",
+    build = function()
+      if treesitter_can_compile then
+        vim.cmd("TSUpdate")
+      end
+    end,
     config = function()
       local ts = require("nvim-treesitter")
       ts.setup()
@@ -249,7 +279,16 @@ require("lazy").setup({
         return
       end
 
-      ts.install(treesitter_parsers)
+      if treesitter_can_compile then
+        ts.install(treesitter_parsers)
+      else
+        vim.schedule(function()
+          vim.notify(
+            "Tree-sitter parser installation skipped: the Nix Clang wrapper is not available in Neovim's PATH. Rebuild the Darwin configuration.",
+            vim.log.levels.ERROR
+          )
+        end)
+      end
 
       vim.treesitter.language.register("bash", "sh")
       vim.treesitter.language.register("bibtex", "bib")

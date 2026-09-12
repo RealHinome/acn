@@ -8,6 +8,7 @@
     extraPackages = with pkgs; [
       alejandra
       basedpyright
+      clang
       fd
       lua-language-server
       nil
