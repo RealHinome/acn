@@ -44,6 +44,14 @@
 
         AppleLocale = "en_US@rg=FRZZZZ";
       };
+
+      ".GlobalPreferences" = {
+        LDMGlobalEnabled = true;
+      };
+
+      "com.apple.SubmitDiagInfo" = {
+        AutoSubmit = false;
+      };
     };
 
     dock = {
