@@ -1,7 +1,8 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    nodejs_24
-    pnpm
+    nodejs
+    typescript
+    typescript-language-server
+    prettier
   ];
 }

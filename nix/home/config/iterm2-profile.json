@@ -1,0 +1,46 @@
+{
+  "Profiles": [
+    {
+      "Name": "Nix Dev",
+      "Guid": "A37AA7C1-5F68-4FE5-86B2-9BD4DDC4528E",
+      "Dynamic Profile Parent Name": "Default",
+      "Normal Font": "JetBrainsMonoNFM-Regular 13",
+      "Non Ascii Font": "JetBrainsMonoNFM-Regular 13",
+      "Use Non-ASCII Font": true,
+      "Use Bold Font": true,
+      "Use Italic Font": true,
+      "ASCII Ligatures": true,
+      "Option Key Sends": 2,
+      "Right Option Key Sends": 2,
+      "Unlimited Scrollback": false,
+      "Scrollback Lines": 50000,
+      "Silence Bell": true,
+      "Visual Bell": false,
+      "Use Bright Bold": true,
+      "Background Color": {
+        "Color Space": "sRGB",
+        "Red Component": 0.1568627451,
+        "Green Component": 0.1647058824,
+        "Blue Component": 0.2117647059
+      },
+      "Foreground Color": {
+        "Color Space": "sRGB",
+        "Red Component": 0.9725490196,
+        "Green Component": 0.9725490196,
+        "Blue Component": 0.9490196078
+      },
+      "Cursor Color": {
+        "Color Space": "sRGB",
+        "Red Component": 0.9725490196,
+        "Green Component": 0.9725490196,
+        "Blue Component": 0.9490196078
+      },
+      "Selection Color": {
+        "Color Space": "sRGB",
+        "Red Component": 0.2666666667,
+        "Green Component": 0.2784313725,
+        "Blue Component": 0.3529411765
+      }
+    }
+  ]
+}

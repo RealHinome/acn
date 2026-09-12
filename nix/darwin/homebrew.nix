@@ -1,17 +1,19 @@
-{ config, pkgs, ... }:
-
-{
+{...}: {
   homebrew = {
     enable = true;
-    
-    onActivation.cleanup = "zap";
-    onActivation.upgrade = true;
 
+    onActivation = {
+      cleanup = "zap";
+      upgrade = true;
+    };
+
+    # GUI applications only.
     casks = [
+      "iterm2"
+      "skim"
       "thunderbird"
       "orbstack"
       "postman"
-      "visual-studio-code"
       "tor-browser"
       "protonvpn"
     ];
