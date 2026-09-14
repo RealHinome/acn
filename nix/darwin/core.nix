@@ -36,7 +36,10 @@
   nix.optimise.automatic = true;
 
   # Keep the formatter available even outside Home Manager shells.
-  environment.systemPackages = [pkgs.alejandra];
+  environment.systemPackages = with pkgs; [
+    alejandra
+    bazel
+  ];
 
   # Used by iTerm2, Neovim, lualine, etc.
   fonts.packages = [pkgs.nerd-fonts.jetbrains-mono];
@@ -65,6 +68,18 @@
 
       "com.apple.SubmitDiagInfo" = {
         AutoSubmit = false;
+      };
+
+      "com.apple.Safari" = {
+        IncludeDevelopMenu = true;
+        WebKitDeveloperExtrasEnabledPreferenceKey = true;
+        "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
+      };
+
+      "com.google.Chrome" = {
+        ExtensionInstallForcelist = [
+          "ddkjiahejlhfcafbddmgiahcphecmpfh;https://clients2.google.com/service/update2/crx"
+        ];
       };
     };
 
